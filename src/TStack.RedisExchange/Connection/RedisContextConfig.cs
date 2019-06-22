@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TStack.RedisExchange.Connection
 {
-    public class RedisContextConfig
+    public abstract class RedisContextConfig
     {
         public RedisContextConfig(IList<RedisServer> redisServers, string password, string clientName, int connectTimeOut = 15000, int syncTimeOut = 15000)
         {
