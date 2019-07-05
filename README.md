@@ -26,25 +26,40 @@ paket add TStack.RedisExchange --version 1.0.1
 ```
 
 # Usage
-This library supports cluster mode, for usage follow steps.
+This library supports **cluster mode**, for usage follow steps.
 ### Step One
 Define Redis Context Config
 ```csharp
-   public class RedisContext : RedisContextConfig
+public class RedisContext : RedisContextConfig
+{
+    public RedisContext() : base(new List<RedisServer> { new RedisServer("localhost", 6379)}, "", "ClientName", 15000, 15000)
     {
-        public RedisContext() : base(new List<RedisServer> { new RedisServer("localhost", 6379)}, "", "ClientName", 15000, 15000)
-        {
-        }
+
     }
+}
 ```
 ### Step Two
 Define Provider
 ```csharp
- public class ProjectProvider : RedisProvider<RedisContext>
-    {
-    }
+public class ProjectProvider : RedisProvider<RedisContext>
+{
+
+}
 ```
 Ready to use.
+
+## Fundamentals
+
+All redis functions need a key parameter for keep data, so you can access with this data from cache from key parameter.
+
+An example for **StringSet**
+```csharp
+ProjectProvider _provider = new ProjectProvider();
+Person person = new Person("ferhat","candas");
+var expire = new TimeSpan(0, 0, 5);
+provider.Add("stringsetkey", person, expire);
+```
+**For more example, than look [tests](https://github.com/ferhatcandas/TStack.RedisExchange/tree/master/tests/TStack.RedisExchange.Tests/Tests)**
 
 
 # Author
