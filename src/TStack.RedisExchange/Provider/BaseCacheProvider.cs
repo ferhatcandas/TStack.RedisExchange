@@ -11,7 +11,7 @@ using TStack.RedisExchange.Tool;
 namespace TStack.RedisExchange.Provider
 {
     public abstract class BaseCacheProvider<TContext> : ICacheContext
-        where TContext : RedisContextConfig, new()
+     where TContext : RedisContextConfig
     {
         #region members
         private ConnectionMultiplexer _muxer;
@@ -21,19 +21,10 @@ namespace TStack.RedisExchange.Provider
 
         #region properties
         public ISerializer ISerializer { get; set; }
-        public BaseCacheProvider()
+        public BaseCacheProvider(TContext context, ISerializer serializer = null)
         {
-            _context = new TContext();
-            ISerializer = new JsonSerializer();
-        }
-        /// <summary>
-        /// Set serializer constructer
-        /// </summary>
-        /// <param name="serializer"></param>
-        public BaseCacheProvider(ISerializer serializer)
-        {
-            _context = new TContext();
-            ISerializer = serializer;
+            _context = context;
+            ISerializer = serializer == null ? new JsonSerializer() : serializer;
         }
         /// <summary>
         /// Disconnect redis cluster servers
@@ -55,10 +46,7 @@ namespace TStack.RedisExchange.Provider
                 _database = Muxer.GetDatabase();
         }
 
-        public void Flush()
-        {
-            throw new NotImplementedException();
-        }
+        public void Flush() => RedisProcess(() => _database.Execute("FLUSHDB"));
 
         /// <summary>
         /// Represents an inter-related group of connections to redis servers
@@ -88,6 +76,7 @@ namespace TStack.RedisExchange.Provider
         internal bool SetAdd<T>(string key, T value, ISerializer serializer) => RedisProcess(() => Database.SetAdd(key, value.Serialize(serializer)));
         internal long SetAdd<T>(string key, IEnumerable<T> values, ISerializer serializer) => RedisProcess(() => Database.SetAdd(key, values.Serialize(serializer)));
         internal IEnumerable<T> GetSet<T>(string key, ISerializer serializer) => RedisProcess(() => Database.SetMembers(key).Deserialize<T>(serializer));
+        internal bool SetRemove<T>(string key, T value, ISerializer serializer) => RedisProcess(() => Database.SetRemove(key, value.Serialize(serializer)));
         //SMEMBERS
         internal bool KeyDelete(string key) => RedisProcess(() => Database.KeyDelete(key));
         internal bool KeyExists(string key) => RedisProcess(() => Database.KeyExists(key));

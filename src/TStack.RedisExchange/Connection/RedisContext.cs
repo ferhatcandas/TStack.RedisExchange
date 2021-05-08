@@ -20,6 +20,7 @@ namespace TStack.RedisExchange.Connection
                 configOptions.Password = redisContextConfig.Password;
                 configOptions.ConnectTimeout = redisContextConfig.ConnectTimeout;
                 configOptions.SyncTimeout = redisContextConfig.SyncTimeout;
+                configOptions.AbortOnConnectFail = redisContextConfig.AbortOnConnectFail;
                 return ConnectionMultiplexer.Connect(configOptions);
             }).Value;
 

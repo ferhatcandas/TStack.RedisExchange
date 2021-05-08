@@ -12,6 +12,7 @@ namespace TStack.RedisExchange.Abstract
         long AddSet<T>(string key, IEnumerable<T> values);
         long AddSet<T>(string key, IEnumerable<T> values, DateTime expireAt);
         long AddSet<T>(string key, IEnumerable<T> values, TimeSpan expiresIn);
+        bool RemoveSet<T>(string key, T value);
         IEnumerable<T> GetSet<T>(string key);
     }
 }

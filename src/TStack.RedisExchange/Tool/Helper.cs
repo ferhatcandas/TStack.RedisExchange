@@ -23,8 +23,8 @@ namespace TStack.RedisExchange.Tool
         public static TimeSpan ToTimeSpan(this DateTime dateTime)
         {
             long diff = 0;
-            if (dateTime > DateTime.Now)
-                diff = (dateTime - DateTime.Now).Ticks;
+            if (dateTime > DateTime.UtcNow)
+                diff = (dateTime - DateTime.UtcNow).Ticks;
             return new TimeSpan(diff);
         }
         public static RedisKey[] ToRedisKeys(this IEnumerable<string> keys)

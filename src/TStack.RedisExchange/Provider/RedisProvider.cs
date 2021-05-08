@@ -10,9 +10,12 @@ using TStack.RedisExchange.Tool;
 
 namespace TStack.RedisExchange.Provider
 {
-    public class RedisProvider<TContext> : BaseCacheProvider<TContext>, IRedisProvider
-        where TContext : RedisContextConfig, new()
+    public class RedisProvider : BaseCacheProvider<RedisContextConfig>, IRedisProvider
     {
+        public RedisProvider(RedisContextConfig context, ISerializer serializer = null) : base(context, serializer)
+        {
+
+        }
         /// <summary>
         /// Adds StringSet 
         /// </summary>
@@ -191,8 +194,14 @@ namespace TStack.RedisExchange.Provider
             KeyExpire(key, expiresIn);
             return returnValue;
         }
-
-
+        /// <summary>
+        /// remove set value from key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool RemoveSet<T>(string key, T value) => SetRemove(key, value, ISerializer);
 
 
 
@@ -330,5 +339,7 @@ namespace TStack.RedisExchange.Provider
             while (nextCursor != 0);
             return totalDeleted;
         }
+
+        public void FlushDB() => Flush();
     }
 }
