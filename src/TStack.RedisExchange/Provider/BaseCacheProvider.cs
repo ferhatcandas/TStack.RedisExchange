@@ -65,6 +65,8 @@ namespace TStack.RedisExchange.Provider
         //SortedSet
         internal bool SortedSetAdd<T>(string key, T value, double score, ISerializer serializer) => RedisProcess(() => Database.SortedSetAdd(key, value.Serialize(serializer), score));
         internal long SortedSetAdd<T>(string key, IEnumerable<SortedSetEntity<T>> values, ISerializer serializer) => RedisProcess(() => Database.SortedSetAdd(key, values.ToSortedSetEntry<T>(serializer)));
+
+        internal bool SortedSetRemove<T>(string key, T value, ISerializer serializer) => RedisProcess(() => Database.SortedSetRemove(key, value.Serialize(serializer)));
         internal IEnumerable<T> GetSortedSet<T>(string key, int startIndex, int count, StackExchange.Redis.Order order, ISerializer serializer) => RedisProcess(() => Database.SortedSetRangeByRank(key, startIndex, count, order).Deserialize<T>(serializer));
         internal IEnumerable<SortedSetEntity<T>> GetSortedSetWithScores<T>(string key, int startIndex, int count, StackExchange.Redis.Order order, ISerializer serializer) => RedisProcess(() => Database.SortedSetRangeByRankWithScores(key, startIndex, count, order).Deserialize<T>(serializer));
         //SortedSet

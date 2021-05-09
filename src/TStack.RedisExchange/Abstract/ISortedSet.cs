@@ -19,5 +19,7 @@ namespace TStack.RedisExchange.Abstract
         long AddSortedSet<T>(string key, IEnumerable<SortedSetEntity<T>> values);
         long AddSortedSet<T>(string key, IEnumerable<SortedSetEntity<T>> values, DateTime expireAt);
         long AddSortedSet<T>(string key, IEnumerable<SortedSetEntity<T>> values, TimeSpan expiresIn);
+
+        bool SortedSetRemove<T>(string key, T value);
     }
 }

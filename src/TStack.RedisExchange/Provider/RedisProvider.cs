@@ -120,6 +120,7 @@ namespace TStack.RedisExchange.Provider
             KeyExpire(key, expiresIn);
             return returnValue;
         }
+        public bool SortedSetRemove<T>(string key, T value) => SortedSetRemove<T>(key, value, ISerializer);
         /// <summary>
         /// Add SMembers
         /// </summary>
@@ -341,5 +342,7 @@ namespace TStack.RedisExchange.Provider
         }
 
         public void FlushDB() => Flush();
+
+
     }
 }
