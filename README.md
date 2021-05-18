@@ -10,19 +10,19 @@ The purpose of this library is to store cache data, the infrastructure "StackExc
 [Nuget Package](https://www.nuget.org/packages/TStack.RedisExchange/)
 #### Package Manager
 ```PM
-Install-Package TStack.RedisExchange -Version 1.0.1
+Install-Package TStack.RedisExchange -Version 1.0.3
 ```
 #### .NET CLI
 ```PM
-dotnet add package TStack.RedisExchange --version 1.0.1
+dotnet add package TStack.RedisExchange --version 1.0.3
 ```
 #### PackageReference
 ```PM
-<PackageReference Include="TStack.RedisExchange" Version="1.0.1" />
+<PackageReference Include="TStack.RedisExchange" Version="1.0.3" />
 ```
 #### Paket CLI
 ```PM
-paket add TStack.RedisExchange --version 1.0.1
+paket add TStack.RedisExchange --version 1.0.3
 ```
 
 # Usage
