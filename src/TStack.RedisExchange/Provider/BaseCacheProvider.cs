@@ -67,8 +67,9 @@ namespace TStack.RedisExchange.Provider
         internal long SortedSetAdd<T>(string key, IEnumerable<SortedSetEntity<T>> values, ISerializer serializer) => RedisProcess(() => Database.SortedSetAdd(key, values.ToSortedSetEntry<T>(serializer)));
 
         internal bool SortedSetRemove<T>(string key, T value, ISerializer serializer) => RedisProcess(() => Database.SortedSetRemove(key, value.Serialize(serializer)));
-        internal IEnumerable<T> GetSortedSet<T>(string key, int startIndex, int count, StackExchange.Redis.Order order, ISerializer serializer) => RedisProcess(() => Database.SortedSetRangeByRank(key, startIndex, count, order).Deserialize<T>(serializer));
-        internal IEnumerable<SortedSetEntity<T>> GetSortedSetWithScores<T>(string key, int startIndex, int count, StackExchange.Redis.Order order, ISerializer serializer) => RedisProcess(() => Database.SortedSetRangeByRankWithScores(key, startIndex, count, order).Deserialize<T>(serializer));
+        internal long SortedSetRemoveByRank(string key, long startIndex, long endScore) => RedisProcess(() => Database.SortedSetRemoveRangeByRank(key, startIndex, endScore));
+        internal IEnumerable<T> GetSortedSet<T>(string key, long startIndex, long count, StackExchange.Redis.Order order, ISerializer serializer) => RedisProcess(() => Database.SortedSetRangeByRank(key, startIndex, count, order).Deserialize<T>(serializer));
+        internal IEnumerable<SortedSetEntity<T>> GetSortedSetWithScores<T>(string key, long startIndex, long count, StackExchange.Redis.Order order, ISerializer serializer) => RedisProcess(() => Database.SortedSetRangeByRankWithScores(key, startIndex, count, order).Deserialize<T>(serializer));
         //SortedSet
         //StringSet
         internal bool StringSet<T>(string key, T value, TimeSpan? expireTime, ISerializer serializer) => RedisProcess(() => Database.StringSet(key, value.Serialize(serializer), expireTime));

@@ -204,8 +204,60 @@ namespace TStack.RedisExchange.Provider
         /// <returns></returns>
         public bool RemoveSet<T>(string key, T value) => SetRemove(key, value, ISerializer);
 
-
-
+        /// <summary>
+        /// remove sorted set value by score and add new value on same score
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
+        public bool ReplaceSortedSet<T>(string key, T value, long score)
+        {
+            SortedSetRemoveByScore(key, score, score);
+            return SortedSetAdd(key, score, score, ISerializer);
+        }
+        /// <summary>
+        /// remove sorted set value by score and add new value on same score, also set expire
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <param name="expireAt"></param>
+        /// <returns></returns>
+        public bool ReplaceSortedSet<T>(string key, T value, long score, DateTime expireAt)
+        {
+            var returnValue = ReplaceSortedSet(key, value, score);
+            if (returnValue)
+                KeyExpire(key, expireAt.ToTimeSpan());
+            return returnValue;
+        }
+        /// <summary>
+        /// remove sorted set value by score and add new value on same score, also set expire
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <param name="expiresIn"></param>
+        /// <returns></returns>
+        public bool ReplaceSortedSet<T>(string key, T value, long score, TimeSpan expiresIn)
+        {
+            var returnValue = ReplaceSortedSet(key, value, score);
+            if (returnValue)
+                KeyExpire(key, expiresIn);
+            return returnValue;
+        }
+        /// <summary>
+        /// remove sorted set value by score arrange
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="startScore"></param>
+        /// <param name="endScore"></param>
+        /// <returns></returns>
+        public void SortedSetRemoveByScore(string key, long startScore, long endScore) => SortedSetRemoveByRank(key, startScore, endScore);
 
 
         /// <summary>
@@ -247,7 +299,7 @@ namespace TStack.RedisExchange.Provider
         /// <param name="count"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public IEnumerable<T> GetSortedSets<T>(string key, int startIndex, int count, Tool.Order order = Tool.Order.Ascending) => GetSortedSet<T>(key, startIndex, count, order.ToRedisOrder(), ISerializer);
+        public IEnumerable<T> GetSortedSets<T>(string key, long startIndex, long count, Tool.Order order = Tool.Order.Ascending) => GetSortedSet<T>(key, startIndex, count, order.ToRedisOrder(), ISerializer);
         /// <summary>
         /// Get SortedSet Collection
         /// </summary>
@@ -265,7 +317,7 @@ namespace TStack.RedisExchange.Provider
         /// <param name="count"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public IEnumerable<SortedSetEntity<T>> GetSortedSetsAll<T>(string key, int startIndex, int count, Tool.Order order = Tool.Order.Ascending) => GetSortedSetWithScores<T>(key, startIndex, count, order.ToRedisOrder(), ISerializer);
+        public IEnumerable<SortedSetEntity<T>> GetSortedSetsAll<T>(string key, long startIndex, long count, Tool.Order order = Tool.Order.Ascending) => GetSortedSetWithScores<T>(key, startIndex, count, order.ToRedisOrder(), ISerializer);
         /// <summary>
         /// Increment String Key's value
         /// </summary>
