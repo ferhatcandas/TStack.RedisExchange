@@ -13,9 +13,10 @@ namespace TStack.RedisExchange
     {
         public static IServiceCollection AddTStackRedisCache(this IServiceCollection services, string host, int port, string password = "", string clientName = "", bool abortConnectOnFail = false, int connectTimeOut = 15000, int syncTimeOut = 15000)
         {
-            var context = new RedisProvider(new RedisContextConfig(new List<RedisServer>
+            var context = new RedisProvider(
+            new RedisContextConfig(new List<RedisServer>
             {
-                    new RedisServer(host,port)
+             new RedisServer(host,port)
             }, password, clientName, abortConnectOnFail, connectTimeOut, syncTimeOut), null);
 
             services.Add(ServiceDescriptor.Singleton<IRedisProvider>(context));

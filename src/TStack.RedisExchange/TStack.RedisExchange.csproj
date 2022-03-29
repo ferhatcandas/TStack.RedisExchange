@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/ferhatcandas/TStack.RedisExchange</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <NeutralLanguage>English</NeutralLanguage>
-    <Version>1.0.4.3</Version>
+    <Version>1.0.4.5</Version>
   </PropertyGroup>
 
   <ItemGroup>

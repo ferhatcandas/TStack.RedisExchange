@@ -395,6 +395,5 @@ namespace TStack.RedisExchange.Provider
 
         public void FlushDB() => Flush();
 
-
     }
 }

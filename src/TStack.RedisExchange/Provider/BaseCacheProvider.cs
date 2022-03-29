@@ -97,8 +97,14 @@ namespace TStack.RedisExchange.Provider
 
         public bool Ping(int ms)
         {
-            var ts = Database.Ping();
-            return ts.Milliseconds < ms;
+            try
+            {
+                return RedisProcess(() => Database.Ping().Milliseconds < ms);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
         }
         #endregion
     }
