@@ -7,12 +7,13 @@ using FluentAssertions;
 using System.Threading;
 using TStack.RedisExchange.Tests.Entity;
 using System.Linq;
+using TStack.RedisExchange.Tests.Connection;
 
 namespace TStack.RedisExchange.Tests.Tests
 {
     public class StringSetTests
     {
-        ProjectProvider provider = new ProjectProvider();
+        ProjectProvider provider = new ProjectProvider(new RedisContext());
         [Fact]
         public void Add_model_should_add_success()
         {

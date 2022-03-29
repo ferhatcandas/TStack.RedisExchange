@@ -11,5 +11,6 @@ namespace TStack.RedisExchange.Abstract
         void Connect();
         void Disconnect();
         void Flush();
+        bool Ping(int ms);
     }
 }

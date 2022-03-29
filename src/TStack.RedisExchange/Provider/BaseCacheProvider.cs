@@ -94,6 +94,12 @@ namespace TStack.RedisExchange.Provider
             Disconnect();
             return response;
         }
+
+        public bool Ping(int ms)
+        {
+            var ts = Database.Ping();
+            return ts.Milliseconds < ms;
+        }
         #endregion
     }
 }

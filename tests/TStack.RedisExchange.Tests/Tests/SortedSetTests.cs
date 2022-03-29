@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TStack.RedisExchange.Model;
+using TStack.RedisExchange.Tests.Connection;
 using TStack.RedisExchange.Tests.Entity;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace TStack.RedisExchange.Tests.Tests
 {
     public class SortedSetTests
     {
-        ProjectProvider provider = new ProjectProvider();
+        ProjectProvider provider = new ProjectProvider(new RedisContext());
 
         [Fact]
         public void Add_model_and_score_should_success()
