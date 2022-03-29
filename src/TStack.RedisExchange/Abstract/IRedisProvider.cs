@@ -11,5 +11,6 @@ namespace TStack.RedisExchange.Abstract
         long Delete(IEnumerable<string> keys);
         long ScanAndDelete(string key,int perMatch);
         void FlushDB();
+        bool Ping(int ms);
     }
 }
